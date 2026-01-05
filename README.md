@@ -19,9 +19,11 @@ npm --version
 ### 1. Clone the Repository
 
 ```sh
-git clone <repository-url>
+git clone https://github.com/alvesgf16/ultimate-trivia-championship.git
 cd ultimate-trivia-championship
 ```
+
+> **Note**: Replace `YOUR-USERNAME` with your actual GitHub username once you create the repository.
 
 ### 2. Install Dependencies
 
@@ -315,43 +317,37 @@ If a port is already in use, you can either:
 - [Next.js Documentation](https://nextjs.org/docs)
 - [React Documentation](https://react.dev/)
 
+## � Remote Caching (Optional)
+
+Turborepo can use a Remote Cache to share build outputs across machines and CI/CD pipelines. To enable this with Vercel:
+
+1. **Authenticate with Vercel**:
+
+   ```sh
+   npx turbo login
+   ```
+
+2. **Link your repository**:
+
+   ```sh
+   npx turbo link
+   ```
+
+This will speed up builds by sharing cache between team members and CI environments.
+
 ## 📝 License
 
-UNLICENSED - Private project
+MIT License - Feel free to use this project for learning and portfolio purposes.
 
-```sh
-cd my-turborepo
+## 🔗 Useful Links
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
+Learn more about the technologies used:
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```sh
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+- [Turborepo Documentation](https://turbo.build/repo/docs)
+  - [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
+  - [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
+  - [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
+  - [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
+- [NestJS Documentation](https://docs.nestjs.com/)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [React Documentation](https://react.dev/)
