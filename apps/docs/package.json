@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint --max-warnings 0",
-    "check-types": "next typegen && tsc --noEmit"
+    "lint:fix": "eslint --fix",
+    "type-check": "next typegen && tsc --noEmit"
   },
   "dependencies": {
     "@repo/ui": "*",
@@ -17,8 +18,8 @@
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "@repo/eslint-config": "*",
-    "@repo/typescript-config": "*",
+    "@repo/config": "*",
+    "@repo/types": "*",
     "@types/node": "^22.15.3",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",
