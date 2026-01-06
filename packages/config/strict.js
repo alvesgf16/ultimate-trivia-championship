@@ -20,7 +20,7 @@ export const strictConfig = [
   {
     languageOptions: {
       parserOptions: {
-        projectService: true,
+        project: true,
       },
     },
   },
@@ -104,7 +104,6 @@ export const strictConfig = [
       'import/resolver': {
         typescript: {
           alwaysTryTypes: true,
-          project: ['apps/*/tsconfig.json', 'packages/*/tsconfig.json'],
         },
       },
     },
