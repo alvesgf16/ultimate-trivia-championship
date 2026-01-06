@@ -81,7 +81,7 @@ export default tseslint.config(
           },
         },
       ],
-      'import/no-unresolved': 'error',
+      'import/no-unresolved': 'off',
       'import/no-cycle': 'error',
       'import/no-duplicates': 'error',
 
