@@ -10,6 +10,15 @@ export default [
     plugins: {
       "jsx-a11y": jsxA11y,
     },
+    settings: {
+      "import/resolver": {
+        typescript: {
+          alwaysTryTypes: true,
+          project: "./tsconfig.json",
+        },
+        node: true,
+      },
+    },
     rules: {
       ...jsxA11y.configs.recommended.rules,
       "react/react-in-jsx-scope": "off",

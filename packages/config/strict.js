@@ -18,6 +18,13 @@ export const strictConfig = [
   ...tseslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   {
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+      },
+    },
+  },
+  {
     plugins: {
       import: importPlugin,
       "unused-imports": unusedImports,
@@ -83,7 +90,7 @@ export const strictConfig = [
 
       // SonarJS code quality rules
       "sonarjs/cognitive-complexity": ["error", 15],
-      "sonarjs/no-duplicate-string": ["error", 3],
+      "sonarjs/no-duplicate-string": ["error", { threshold: 3 }],
       "sonarjs/no-identical-functions": "error",
       "sonarjs/no-collapsible-if": "error",
 
