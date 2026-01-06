@@ -1,0 +1,50 @@
+{
+  // Editor
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never"
+  },
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.rulers": [80, 120],
+
+  // Files
+  "files.eol": "\n",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+
+  // Prettier
+  "prettier.requireConfig": true,
+
+  // ESLint
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "eslint.workingDirectories": [{ "mode": "auto" }],
+
+  // TypeScript
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  // Search
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/.next": true,
+    "**/coverage": true,
+    "**/.turbo": true
+  },
+
+  // Files exclude
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true
+  }
+}

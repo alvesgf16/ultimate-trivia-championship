@@ -4,24 +4,42 @@ import importPlugin from 'eslint-plugin-import';
 import unusedImports from 'eslint-plugin-unused-imports';
 import sonarjs from 'eslint-plugin-sonarjs';
 import tseslint from 'typescript-eslint';
+import globals from 'globals';
 import { config as baseConfig } from './base.js';
 
 /**
- * A strict ESLint configuration with enhanced rules for imports, unused code, and code quality.
+ * A shared ESLint configuration for NestJS applications.
+ * Includes strict TypeScript checks, import management, and code quality rules.
  *
  * @type {import("eslint").Linter.Config[]}
  * */
-export const strictConfig = [
+export const nestJsConfig = [
   ...baseConfig,
   js.configs.recommended,
   eslintConfigPrettier,
   ...tseslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   {
+    languageOptions: {
+      globals: {
+        ...globals.node,
+        ...globals.jest,
+      },
+    },
+  },
+  {
     plugins: {
       import: importPlugin,
       'unused-imports': unusedImports,
       sonarjs: sonarjs,
+    },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+        },
+        node: true,
+      },
     },
     rules: {
       // TypeScript specific rules
@@ -30,6 +48,7 @@ export const strictConfig = [
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/no-unsafe-argument': 'warn',
       '@typescript-eslint/no-misused-promises': 'error',
       '@typescript-eslint/await-thenable': 'error',
 
@@ -48,16 +67,11 @@ export const strictConfig = [
           ],
           pathGroups: [
             {
-              pattern: 'react',
-              group: 'builtin',
-              position: 'before',
-            },
-            {
               pattern: '@/**',
               group: 'internal',
             },
           ],
-          pathGroupsExcludedImportTypes: ['react'],
+          pathGroupsExcludedImportTypes: ['builtin'],
           'newlines-between': 'always',
           alphabetize: {
             order: 'asc',
@@ -65,7 +79,7 @@ export const strictConfig = [
           },
         },
       ],
-      'import/no-unresolved': 'error',
+      'import/no-unresolved': 'off',
       'import/no-cycle': 'error',
       'import/no-duplicates': 'error',
 
@@ -93,21 +107,12 @@ export const strictConfig = [
       'no-var': 'error',
       eqeqeq: ['error', 'always'],
     },
-    settings: {
-      'import/resolver': {
-        typescript: {
-          alwaysTryTypes: true,
-          project: ['./tsconfig.json', './**/tsconfig.json'],
-        },
-      },
-    },
   },
   {
     ignores: [
       'node_modules/**',
       'dist/**',
       'build/**',
-      '.next/**',
       'coverage/**',
       '*.config.js',
       '*.config.mjs',

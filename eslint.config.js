@@ -1,4 +1,4 @@
-import { strictConfig } from "@repo/config/strict";
+import { strictConfig } from '@repo/config/strict';
 
 /**
  * Root ESLint configuration for the monorepo.
@@ -10,9 +10,10 @@ export default [
   {
     languageOptions: {
       parserOptions: {
-        ecmaVersion: "latest",
-        sourceType: "module",
-        project: true,
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        project: ['./tsconfig.json'],
+        tsconfigRootDir: import.meta.dirname,
       },
     },
   },

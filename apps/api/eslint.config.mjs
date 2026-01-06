@@ -1,35 +1,60 @@
 // @ts-check
-import eslint from '@eslint/js';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
-import globals from 'globals';
 import tseslint from 'typescript-eslint';
+import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import { nestJsConfig } from '@repo/config/nestjs';
 
 export default tseslint.config(
   {
-    ignores: ['eslint.config.mjs'],
+    ignores: ['eslint.config.mjs', 'dist/**', 'coverage/**'],
   },
-  eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
+  ...nestJsConfig,
   eslintPluginPrettierRecommended,
   {
     languageOptions: {
-      globals: {
-        ...globals.node,
-        ...globals.jest,
-      },
       sourceType: 'commonjs',
       parserOptions: {
-        projectService: true,
+        project: ['./tsconfig.json', './tsconfig.build.json'],
         tsconfigRootDir: import.meta.dirname,
       },
     },
   },
   {
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-floating-promises': 'warn',
-      '@typescript-eslint/no-unsafe-argument': 'warn',
-      "prettier/prettier": ["error", { endOfLine: "auto" }],
+      // NestJS-specific import path groups
+      'import/order': [
+        'error',
+        {
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            ['parent', 'sibling'],
+            'index',
+            'object',
+            'type',
+          ],
+          pathGroups: [
+            {
+              pattern: '@nestjs/**',
+              group: 'external',
+              position: 'before',
+            },
+            {
+              pattern: '@/**',
+              group: 'internal',
+            },
+          ],
+          pathGroupsExcludedImportTypes: ['builtin'],
+          'newlines-between': 'always',
+          alphabetize: {
+            order: 'asc',
+            caseInsensitive: true,
+          },
+        },
+      ],
+
+      // Prettier
+      'prettier/prettier': ['error', { endOfLine: 'auto' }],
     },
   },
 );
