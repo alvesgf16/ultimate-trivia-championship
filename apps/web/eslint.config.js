@@ -4,8 +4,19 @@ import jsxA11y from 'eslint-plugin-jsx-a11y';
 
 /** @type {import("eslint").Linter.Config[]} */
 export default [
+  {
+    ignores: ['eslint.config.js'],
+  },
   ...strictConfig,
   ...nextJsConfig,
+  {
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
   {
     plugins: {
       'jsx-a11y': jsxA11y,
@@ -14,6 +25,7 @@ export default [
       'import/resolver': {
         typescript: {
           alwaysTryTypes: true,
+          project: ['./tsconfig.json'],
         },
         node: true,
       },
