@@ -2,6 +2,7 @@
   "name": "ultimate-trivia-championship",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "workspaces": [
     "apps/*",
     "packages/*"
