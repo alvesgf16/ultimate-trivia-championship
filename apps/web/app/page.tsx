@@ -1,8 +1,8 @@
-import { Button } from "@repo/ui/button";
-import { ThemeImage } from "@repo/ui/theme-image";
+import { Button } from '@repo/ui/button';
+import { ThemeImage } from '@repo/ui/theme-image';
 import Image from 'next/image';
 
-import styles from "./page.module.css";
+import styles from './page.module.css';
 
 export default function Home() {
   return (

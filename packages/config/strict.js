@@ -1,10 +1,10 @@
-import js from "@eslint/js";
-import eslintConfigPrettier from "eslint-config-prettier";
-import importPlugin from "eslint-plugin-import";
-import unusedImports from "eslint-plugin-unused-imports";
-import sonarjs from "eslint-plugin-sonarjs";
-import tseslint from "typescript-eslint";
-import { config as baseConfig } from "./base.js";
+import js from '@eslint/js';
+import eslintConfigPrettier from 'eslint-config-prettier';
+import importPlugin from 'eslint-plugin-import';
+import unusedImports from 'eslint-plugin-unused-imports';
+import sonarjs from 'eslint-plugin-sonarjs';
+import tseslint from 'typescript-eslint';
+import { config as baseConfig } from './base.js';
 
 /**
  * A strict ESLint configuration with enhanced rules for imports, unused code, and code quality.
@@ -27,97 +27,97 @@ export const strictConfig = [
   {
     plugins: {
       import: importPlugin,
-      "unused-imports": unusedImports,
+      'unused-imports': unusedImports,
       sonarjs: sonarjs,
     },
     rules: {
       // TypeScript specific rules
-      "@typescript-eslint/no-unused-vars": "error",
-      "@typescript-eslint/no-explicit-any": "warn",
-      "@typescript-eslint/explicit-function-return-type": "off",
-      "@typescript-eslint/explicit-module-boundary-types": "off",
-      "@typescript-eslint/no-floating-promises": "error",
-      "@typescript-eslint/no-misused-promises": "error",
-      "@typescript-eslint/await-thenable": "error",
+      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/no-misused-promises': 'error',
+      '@typescript-eslint/await-thenable': 'error',
 
       // Import ordering and organization
-      "import/order": [
-        "error",
+      'import/order': [
+        'error',
         {
           groups: [
-            "builtin",
-            "external",
-            "internal",
-            ["parent", "sibling"],
-            "index",
-            "object",
-            "type",
+            'builtin',
+            'external',
+            'internal',
+            ['parent', 'sibling'],
+            'index',
+            'object',
+            'type',
           ],
           pathGroups: [
             {
-              pattern: "react",
-              group: "builtin",
-              position: "before",
+              pattern: 'react',
+              group: 'builtin',
+              position: 'before',
             },
             {
-              pattern: "@/**",
-              group: "internal",
+              pattern: '@/**',
+              group: 'internal',
             },
           ],
-          pathGroupsExcludedImportTypes: ["react"],
-          "newlines-between": "always",
+          pathGroupsExcludedImportTypes: ['react'],
+          'newlines-between': 'always',
           alphabetize: {
-            order: "asc",
+            order: 'asc',
             caseInsensitive: true,
           },
         },
       ],
-      "import/no-unresolved": "error",
-      "import/no-cycle": "error",
-      "import/no-duplicates": "error",
+      'import/no-unresolved': 'error',
+      'import/no-cycle': 'error',
+      'import/no-duplicates': 'error',
 
       // Unused imports
-      "unused-imports/no-unused-imports": "error",
-      "unused-imports/no-unused-vars": [
-        "warn",
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': [
+        'warn',
         {
-          vars: "all",
-          varsIgnorePattern: "^_",
-          args: "after-used",
-          argsIgnorePattern: "^_",
+          vars: 'all',
+          varsIgnorePattern: '^_',
+          args: 'after-used',
+          argsIgnorePattern: '^_',
         },
       ],
 
       // SonarJS code quality rules
-      "sonarjs/cognitive-complexity": ["error", 15],
-      "sonarjs/no-duplicate-string": ["error", { threshold: 3 }],
-      "sonarjs/no-identical-functions": "error",
-      "sonarjs/no-collapsible-if": "error",
+      'sonarjs/cognitive-complexity': ['error', 15],
+      'sonarjs/no-duplicate-string': ['error', { threshold: 3 }],
+      'sonarjs/no-identical-functions': 'error',
+      'sonarjs/no-collapsible-if': 'error',
 
       // General best practices
-      "no-console": ["warn", { allow: ["warn", "error"] }],
-      "prefer-const": "error",
-      "no-var": "error",
-      eqeqeq: ["error", "always"],
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'prefer-const': 'error',
+      'no-var': 'error',
+      eqeqeq: ['error', 'always'],
     },
     settings: {
-      "import/resolver": {
+      'import/resolver': {
         typescript: {
           alwaysTryTypes: true,
-          project: ["apps/*/tsconfig.json", "packages/*/tsconfig.json"],
+          project: ['apps/*/tsconfig.json', 'packages/*/tsconfig.json'],
         },
       },
     },
   },
   {
     ignores: [
-      "node_modules/**",
-      "dist/**",
-      "build/**",
-      ".next/**",
-      "coverage/**",
-      "*.config.js",
-      "*.config.mjs",
+      'node_modules/**',
+      'dist/**',
+      'build/**',
+      '.next/**',
+      'coverage/**',
+      '*.config.js',
+      '*.config.mjs',
     ],
   },
 ];

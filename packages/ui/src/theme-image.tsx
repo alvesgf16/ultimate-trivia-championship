@@ -1,6 +1,6 @@
-import Image, { type ImageProps } from "next/image";
+import Image, { type ImageProps } from 'next/image';
 
-type Props = Omit<ImageProps, "src"> & {
+type Props = Omit<ImageProps, 'src'> & {
   srcLight: string;
   srcDark: string;
 };
@@ -10,8 +10,16 @@ export const ThemeImage = (props: Props) => {
 
   return (
     <>
-      <Image {...rest} src={srcLight} className={`${className || ''} imgLight`.trim()} />
-      <Image {...rest} src={srcDark} className={`${className || ''} imgDark`.trim()} />
+      <Image
+        {...rest}
+        src={srcLight}
+        className={`${className || ''} imgLight`.trim()}
+      />
+      <Image
+        {...rest}
+        src={srcDark}
+        className={`${className || ''} imgDark`.trim()}
+      />
     </>
   );
 };

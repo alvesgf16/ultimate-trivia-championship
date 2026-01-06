@@ -1,4 +1,4 @@
-import { strictConfig } from "@repo/config/strict";
+import { strictConfig } from '@repo/config/strict';
 
 /**
  * Root ESLint configuration for the monorepo.
@@ -10,8 +10,8 @@ export default [
   {
     languageOptions: {
       parserOptions: {
-        ecmaVersion: "latest",
-        sourceType: "module",
+        ecmaVersion: 'latest',
+        sourceType: 'module',
         project: true,
       },
     },
