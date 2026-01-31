@@ -1,0 +1,239 @@
+name: CD
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+
+env:
+  NODE_VERSION: '20'
+  TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+
+jobs:
+  build:
+    name: Build for Deployment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules
+            apps/*/node_modules
+            packages/*/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Cache Turbo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-deploy-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-deploy-
+
+      - name: Build all applications
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Upload API artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-build
+          path: |
+            apps/api/dist
+            apps/api/package.json
+          retention-days: 7
+
+      - name: Upload Web artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: |
+            apps/web/.next
+            apps/web/package.json
+            apps/web/public
+          retention-days: 7
+
+      - name: Upload Docs artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-build
+          path: |
+            apps/docs/.next
+            apps/docs/package.json
+            apps/docs/public
+          retention-days: 7
+
+  deploy-api:
+    name: Deploy API
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: production-api
+      url: ${{ steps.deploy.outputs.url }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download API artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: api-build
+          path: apps/api
+
+      - name: Check if AWS credentials are configured
+        id: check-aws
+        run: |
+          if [ -n "${{ secrets.AWS_ACCESS_KEY_ID }}" ]; then
+            echo "configured=true" >> $GITHUB_OUTPUT
+          else
+            echo "configured=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Configure AWS credentials
+        if: steps.check-aws.outputs.configured == 'true'
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ca-west-1
+
+      - name: Login to Amazon ECR
+        if: steps.check-aws.outputs.configured == 'true'
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up Docker Buildx
+        if: steps.check-aws.outputs.configured == 'true'
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push Docker image to ECR
+        if: steps.check-aws.outputs.configured == 'true'
+        uses: docker/build-push-action@v5
+        with:
+          context: ./apps/api
+          push: true
+          tags: |
+            ${{ steps.login-ecr.outputs.registry }}/ultimate-trivia-api:latest
+            ${{ steps.login-ecr.outputs.registry }}/ultimate-trivia-api:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Deploy to production
+        id: deploy
+        run: |
+          echo "Deploy API to your infrastructure here"
+          echo "url=https://api.example.com" >> $GITHUB_OUTPUT
+
+  deploy-web:
+    name: Deploy Web App
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: production-web
+      url: ${{ steps.deploy.outputs.url }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Web artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: web-build
+          path: apps/web
+
+      - name: Check if Vercel is configured
+        id: check-vercel
+        run: |
+          if [ -n "${{ secrets.VERCEL_TOKEN }}" ]; then
+            echo "configured=true" >> $GITHUB_OUTPUT
+          else
+            echo "configured=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Deploy to Vercel
+        if: steps.check-vercel.outputs.configured == 'true'
+        uses: amondnet/vercel-action@v25
+        id: deploy
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: ./apps/web
+          vercel-args: '--prod'
+
+  deploy-docs:
+    name: Deploy Documentation
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: production-docs
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download Docs artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: docs-build
+          path: apps/docs
+
+      - name: Check if Vercel is configured
+        id: check-vercel
+        run: |
+          if [ -n "${{ secrets.VERCEL_TOKEN }}" ]; then
+            echo "configured=true" >> $GITHUB_OUTPUT
+          else
+            echo "configured=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Deploy to Vercel
+        if: steps.check-vercel.outputs.configured == 'true'
+        uses: amondnet/vercel-action@v25
+        id: deploy
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_DOCS_PROJECT_ID }}
+          working-directory: ./apps/docs
+          vercel-args: '--prod'
+
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs: [deploy-api, deploy-web, deploy-docs]
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
