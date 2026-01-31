@@ -174,7 +174,7 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./apps/api/coverage/lcov.info,./apps/web/coverage/lcov.info,./apps/docs/coverage/lcov.info
+          files: ./apps/api/coverage/lcov.info
           flags: unittests
           name: codecov-umbrella
           fail_ci_if_error: false
