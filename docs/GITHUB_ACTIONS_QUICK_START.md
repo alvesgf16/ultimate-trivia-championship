@@ -34,6 +34,7 @@ If deploying web/docs to Vercel:
 2. Branch name pattern: `main`
 3. Enable:
    - ✅ Require pull request reviews (1 approval)
+     - ✅ Allow specified actors to bypass (add yourself)
    - ✅ Require status checks: `CI Success`
    - ✅ Require conversation resolution
 4. Save changes

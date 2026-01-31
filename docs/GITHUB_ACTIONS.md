@@ -262,8 +262,11 @@ main
 #### Required Settings
 
 - ✅ **Require a pull request before merging**
-  - ✅ Require approvals: 1
+  - Require approvals: 1
   - ✅ Dismiss stale pull request approvals when new commits are pushed
+  - ✅ **Allow specified actors to bypass required pull requests**
+    - Add yourself (repository admin) to the bypass list
+    - This allows you to merge without approval while working solo
 
 - ✅ **Require status checks to pass before merging**
   - ✅ Require branches to be up to date before merging
@@ -290,6 +293,7 @@ main
 ```yaml
 Protection Rules for 'main':
   - Require pull request reviews before merging (1 approval)
+    - Allow specified actors to bypass (add yourself)
   - Require status checks to pass:
     ✓ CI Success
     ✓ Type Check
@@ -300,7 +304,6 @@ Protection Rules for 'main':
     ✓ Security Scan
   - Require conversation resolution
   - Require linear history
-  - Do not allow bypassing
 ```
 
 ## Turborepo Remote Caching Setup (Optional)
