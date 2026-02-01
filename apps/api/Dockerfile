@@ -3,22 +3,18 @@ FROM node:24-alpine AS builder
 
 WORKDIR /app
 
-# Copy root package files for monorepo
+# Copy package files
 COPY package*.json ./
 COPY turbo.json ./
 
-# Copy workspace packages
-COPY apps/api/package*.json ./apps/api/
-
-# Install dependencies from root
+# Install dependencies
 RUN npm ci --ignore-scripts
 
-# Copy API source code and configuration files
-COPY apps/api/src ./apps/api/src
-COPY apps/api/tsconfig.json apps/api/tsconfig.build.json apps/api/nest-cli.json ./apps/api/
+# Copy source code and configuration files
+COPY src ./src
+COPY tsconfig.json tsconfig.build.json nest-cli.json ./
 
-# Build the API application
-WORKDIR /app/apps/api
+# Build the application
 RUN npm run build
 
 # Production stage
@@ -26,14 +22,15 @@ FROM node:24-alpine AS production
 
 WORKDIR /app
 
-# Copy API package files
-COPY apps/api/package*.json ./
+# Copy package files
+COPY package*.json ./
+COPY turbo.json ./
 
 # Install only production dependencies
 RUN npm ci --omit=dev --ignore-scripts
 
 # Copy built application from builder stage
-COPY --from=builder /app/apps/api/dist ./dist
+COPY --from=builder /app/dist ./dist
 
 # Create a non-root user and change ownership
 RUN addgroup -g 1001 -S nodejs && \

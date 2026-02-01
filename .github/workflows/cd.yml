@@ -119,6 +119,11 @@ jobs:
         if: steps.check-aws.outputs.configured == 'true'
         uses: docker/setup-buildx-action@v3
 
+      - name: Prepare API build context
+        if: steps.check-aws.outputs.configured == 'true'
+        run: |
+          cp package.json package-lock.json turbo.json apps/api/
+
       - name: Build and push Docker image to ECR
         if: steps.check-aws.outputs.configured == 'true'
         uses: docker/build-push-action@v5
@@ -164,7 +169,6 @@ jobs:
         run: |
           npx vercel@${{ env.VERCEL_CLI_VERSION }} pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
           npx vercel@${{ env.VERCEL_CLI_VERSION }} deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: ./apps/web
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -195,7 +199,6 @@ jobs:
         run: |
           npx vercel@${{ env.VERCEL_CLI_VERSION }} pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
           npx vercel@${{ env.VERCEL_CLI_VERSION }} deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: ./apps/docs
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_DOCS_PROJECT_ID }}

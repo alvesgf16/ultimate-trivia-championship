@@ -1,16 +1,15 @@
 node_modules
-npm-debug.log
 dist
 coverage
 .turbo
-.git
-.gitignore
-README.md
-.eslintrc.js
-.prettierrc
-*.md
 test
-*.spec.ts
-.env
-.env.local
-.env.*.local
+*.md
+.git*
+.prettier*
+.eslint*
+.env*
+
+# Root files copied in by workflow (allow them)
+!package.json
+!package-lock.json
+!turbo.json
