@@ -26,8 +26,12 @@ FROM node:24-alpine AS production
 
 WORKDIR /app
 
+# Copy root package files for dependency installation
+COPY package*.json ./
+COPY turbo.json ./
+
 # Copy API package files
-COPY apps/api/package*.json ./
+COPY apps/api/package*.json ./apps/api/
 
 # Install only production dependencies
 RUN npm ci --omit=dev --ignore-scripts
