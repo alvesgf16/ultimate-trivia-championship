@@ -66,14 +66,20 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: web-build
-          path: apps/web
+          path: |
+            apps/web/.next
+            apps/web/package.json
+            apps/web/public
           retention-days: 7
 
       - name: Upload Docs artifacts
         uses: actions/upload-artifact@v4
         with:
           name: docs-build
-          path: apps/docs
+          path: |
+            apps/docs/.next
+            apps/docs/package.json
+            apps/docs/public
           retention-days: 7
 
   deploy-api:
