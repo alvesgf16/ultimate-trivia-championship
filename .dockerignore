@@ -1,23 +1,23 @@
-# Ignore everything by default
-*
+# Exclude everything except what's needed for API build
+node_modules
+.git
+.github
+.turbo
+.vscode
+.husky
 
-# Allow root-level config files needed for the build
-!package.json
-!package-lock.json
-!turbo.json
+# Exclude other apps and packages (only need apps/api)
+apps/web
+apps/docs
+packages
+docs
 
-# Allow the API app directory
-!apps/
-apps/*
-!apps/api/
-
-# Exclude unnecessary files from apps/api
-apps/api/node_modules
-apps/api/dist
-apps/api/coverage
-apps/api/.turbo
-apps/api/test
-apps/api/*.md
-apps/api/.git*
-apps/api/.prettier*
-apps/api/.eslint*
+# Exclude build artifacts and dev files
+**/dist
+**/coverage
+**/test
+**/*.md
+**/.git*
+**/.prettier*
+**/.eslint*
+**/.env*
