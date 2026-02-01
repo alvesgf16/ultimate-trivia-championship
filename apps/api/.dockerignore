@@ -8,8 +8,3 @@ test
 .prettier*
 .eslint*
 .env*
-
-# Root files copied in by workflow (allow them)
-!package.json
-!package-lock.json
-!turbo.json

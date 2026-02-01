@@ -113,8 +113,7 @@ jobs:
         if: steps.check-aws.outputs.configured == 'true'
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ./apps/api/Dockerfile
+          context: ./apps/api
           push: true
           tags: |
             ${{ steps.login-ecr.outputs.registry }}/ultimate-trivia-api:latest
