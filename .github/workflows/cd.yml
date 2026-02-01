@@ -104,6 +104,11 @@ jobs:
         if: steps.check-aws.outputs.configured == 'true'
         uses: docker/setup-buildx-action@v3
 
+      - name: Prepare API build context
+        if: steps.check-aws.outputs.configured == 'true'
+        run: |
+          cp package.json package-lock.json turbo.json apps/api/
+
       - name: Build and push Docker image to ECR
         if: steps.check-aws.outputs.configured == 'true'
         uses: docker/build-push-action@v5
