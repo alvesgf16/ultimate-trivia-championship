@@ -8,7 +8,7 @@ COPY package*.json ./
 COPY turbo.json ./
 
 # Install dependencies
-RUN npm ci --ignore-scripts
+RUN npm ci
 
 # Copy source code and configuration files
 COPY src ./src
@@ -27,7 +27,7 @@ COPY package*.json ./
 COPY turbo.json ./
 
 # Install only production dependencies
-RUN npm ci --omit=dev --ignore-scripts
+RUN npm ci --omit=dev
 
 # Copy built application from builder stage
 COPY --from=builder /app/dist ./dist
