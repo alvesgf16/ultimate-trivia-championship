@@ -149,12 +149,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download Web artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: web-build
-          path: apps/web
-
       - name: Check if Vercel is configured
         id: check-vercel
         run: |
@@ -169,7 +163,7 @@ jobs:
         id: deploy
         run: |
           npx vercel@${{ env.VERCEL_CLI_VERSION }} pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-          npx vercel@${{ env.VERCEL_CLI_VERSION }} deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+          npx vercel@${{ env.VERCEL_CLI_VERSION }} deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
         working-directory: ./apps/web
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -186,12 +180,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download Docs artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: docs-build
-          path: apps/docs
-
       - name: Check if Vercel is configured
         id: check-vercel
         run: |
@@ -206,7 +194,7 @@ jobs:
         id: deploy
         run: |
           npx vercel@${{ env.VERCEL_CLI_VERSION }} pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-          npx vercel@${{ env.VERCEL_CLI_VERSION }} deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+          npx vercel@${{ env.VERCEL_CLI_VERSION }} deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
         working-directory: ./apps/docs
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
