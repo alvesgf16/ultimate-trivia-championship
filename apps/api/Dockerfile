@@ -22,9 +22,8 @@ FROM node:24-alpine AS production
 
 WORKDIR /app
 
-# Copy package files
+# Copy only the dependency manifest files needed for install
 COPY package*.json ./
-COPY turbo.json ./
 
 # Install only production dependencies
 RUN npm ci --omit=dev --ignore-scripts
