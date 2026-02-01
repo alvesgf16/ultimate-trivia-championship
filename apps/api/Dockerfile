@@ -1,5 +1,5 @@
 # Build stage
-FROM node:20-alpine AS builder
+FROM node:24-alpine AS builder
 
 WORKDIR /app
 
@@ -21,11 +21,8 @@ COPY apps/api/tsconfig.json apps/api/tsconfig.build.json apps/api/nest-cli.json 
 WORKDIR /app/apps/api
 RUN npm run build
 
-# Build the application
-RUN npm run build
-
 # Production stage
-FROM node:20-alpine AS production
+FROM node:24-alpine AS production
 
 WORKDIR /app
 
