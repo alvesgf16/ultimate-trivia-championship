@@ -107,7 +107,7 @@ jobs:
       - name: Prepare API build context
         if: steps.check-aws.outputs.configured == 'true'
         run: |
-          cp package.json package-lock.json turbo.json apps/api/
+          cp turbo.json apps/api/
 
       - name: Build and push Docker image to ECR
         if: steps.check-aws.outputs.configured == 'true'
