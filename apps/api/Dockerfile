@@ -8,7 +8,7 @@ COPY package.json ./
 
 # Install dependencies
 # Using npm install because this is a workspace and we need to generate a lock file for just this app
-RUN npm install --frozen-lockfile=false --ignore-scripts
+RUN npm install --ignore-scripts
 
 # Copy source code and configuration files
 COPY src ./src
@@ -27,7 +27,7 @@ WORKDIR /app
 COPY package.json ./
 
 # Install only production dependencies
-RUN npm install --frozen-lockfile=false --omit=dev --ignore-scripts
+RUN npm install --omit=dev --ignore-scripts
 
 # Copy built application from builder stage
 COPY --from=builder /app/dist ./dist
