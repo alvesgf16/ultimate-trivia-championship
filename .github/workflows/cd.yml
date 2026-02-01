@@ -8,7 +8,7 @@ on:
       - 'v*'
 
 env:
-  NODE_VERSION: '20'
+  NODE_VERSION: '24'
   VERCEL_CLI_VERSION: '39.1.0'
   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
   TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
@@ -123,7 +123,8 @@ jobs:
         if: steps.check-aws.outputs.configured == 'true'
         uses: docker/build-push-action@v5
         with:
-          context: ./apps/api
+          context: .
+          file: ./apps/api/Dockerfile
           push: true
           tags: |
             ${{ steps.login-ecr.outputs.registry }}/ultimate-trivia-api:latest
@@ -168,7 +169,6 @@ jobs:
         id: deploy
         run: |
           npx vercel@${{ env.VERCEL_CLI_VERSION }} pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-          npx vercel@${{ env.VERCEL_CLI_VERSION }} build --prod --token=${{ secrets.VERCEL_TOKEN }}
           npx vercel@${{ env.VERCEL_CLI_VERSION }} deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
         working-directory: ./apps/web
         env:
@@ -206,7 +206,6 @@ jobs:
         id: deploy
         run: |
           npx vercel@${{ env.VERCEL_CLI_VERSION }} pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-          npx vercel@${{ env.VERCEL_CLI_VERSION }} build --prod --token=${{ secrets.VERCEL_TOKEN }}
           npx vercel@${{ env.VERCEL_CLI_VERSION }} deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
         working-directory: ./apps/docs
         env:

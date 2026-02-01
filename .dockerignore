@@ -1,0 +1,23 @@
+# Ignore everything by default
+*
+
+# Allow root-level config files needed for the build
+!package.json
+!package-lock.json
+!turbo.json
+
+# Allow the API app directory
+!apps/
+apps/*
+!apps/api/
+
+# Exclude unnecessary files from apps/api
+apps/api/node_modules
+apps/api/dist
+apps/api/coverage
+apps/api/.turbo
+apps/api/test
+apps/api/*.md
+apps/api/.git*
+apps/api/.prettier*
+apps/api/.eslint*
