@@ -53,15 +53,6 @@ jobs:
         env:
           NODE_ENV: production
 
-      - name: Upload API artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: api-build
-          path: |
-            apps/api/dist
-            apps/api/package.json
-          retention-days: 7
-
       - name: Upload Web artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -86,12 +77,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Download API artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: api-build
-          path: apps/api
 
       - name: Check if AWS credentials are configured
         id: check-aws
