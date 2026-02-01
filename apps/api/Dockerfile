@@ -13,6 +13,7 @@ RUN npm install --frozen-lockfile=false --ignore-scripts
 # Copy source code and configuration files
 COPY src ./src
 COPY tsconfig.json tsconfig.build.json nest-cli.json ./
+COPY turbo.json ./
 
 # Build the application
 RUN npm run build && ls -la /app/
