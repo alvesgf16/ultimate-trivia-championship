@@ -8,7 +8,7 @@ COPY package.json ./
 
 # Install dependencies
 # Using npm install because this is a workspace and we need to generate a lock file for just this app
-RUN npm install --frozen-lockfile=false
+RUN npm install --frozen-lockfile=false --ignore-scripts
 
 # Copy source code and configuration files
 COPY src ./src
