@@ -7,10 +7,11 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci
+RUN npm ci --ignore-scripts
 
-# Copy source code
-COPY . .
+# Copy source code and configuration files
+COPY src ./src
+COPY tsconfig.json tsconfig.build.json nest-cli.json ./
 
 # Build the application
 RUN npm run build
@@ -24,10 +25,18 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install only production dependencies
-RUN npm ci --omit=dev
+RUN npm ci --omit=dev --ignore-scripts
 
 # Copy built application from builder stage
 COPY --from=builder /app/dist ./dist
+
+# Create a non-root user and change ownership
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001 && \
+    chown -R nodejs:nodejs /app
+
+# Switch to non-root user
+USER nodejs
 
 # Expose the port the app runs on
 EXPOSE 3000
