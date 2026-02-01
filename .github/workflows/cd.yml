@@ -9,6 +9,7 @@ on:
 
 env:
   NODE_VERSION: '20'
+  VERCEL_CLI_VERSION: '39.1.0'
   TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
   TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
 
@@ -37,7 +38,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Cache Turbo
         uses: actions/cache@v4
@@ -65,20 +66,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: web-build
-          path: |
-            apps/web/.next
-            apps/web/package.json
-            apps/web/public
+          path: apps/web
           retention-days: 7
 
       - name: Upload Docs artifacts
         uses: actions/upload-artifact@v4
         with:
           name: docs-build
-          path: |
-            apps/docs/.next
-            apps/docs/package.json
-            apps/docs/public
+          path: apps/docs
           retention-days: 7
 
   deploy-api:
@@ -170,14 +165,15 @@ jobs:
 
       - name: Deploy to Vercel
         if: steps.check-vercel.outputs.configured == 'true'
-        uses: amondnet/vercel-action@v25
         id: deploy
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          working-directory: ./apps/web
-          vercel-args: '--prod'
+        run: |
+          npx vercel@${{ env.VERCEL_CLI_VERSION }} pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          npx vercel@${{ env.VERCEL_CLI_VERSION }} build --prod --token=${{ secrets.VERCEL_TOKEN }}
+          npx vercel@${{ env.VERCEL_CLI_VERSION }} deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./apps/web
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
   deploy-docs:
     name: Deploy Documentation
@@ -207,14 +203,15 @@ jobs:
 
       - name: Deploy to Vercel
         if: steps.check-vercel.outputs.configured == 'true'
-        uses: amondnet/vercel-action@v25
         id: deploy
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_DOCS_PROJECT_ID }}
-          working-directory: ./apps/docs
-          vercel-args: '--prod'
+        run: |
+          npx vercel@${{ env.VERCEL_CLI_VERSION }} pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+          npx vercel@${{ env.VERCEL_CLI_VERSION }} build --prod --token=${{ secrets.VERCEL_TOKEN }}
+          npx vercel@${{ env.VERCEL_CLI_VERSION }} deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: ./apps/docs
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_DOCS_PROJECT_ID }}
 
   release:
     name: Create Release
