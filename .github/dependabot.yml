@@ -1,0 +1,109 @@
+version: 2
+updates:
+  # Enable version updates for npm
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+    open-pull-requests-limit: 10
+    labels:
+      - 'dependencies'
+      - 'npm'
+    commit-message:
+      prefix: 'chore(deps):'
+      include: 'scope'
+    # Prioritize security updates
+    versioning-strategy: increase
+    # Group patch updates together
+    groups:
+      patch-updates:
+        patterns:
+          - '*'
+        update-types:
+          - 'patch'
+
+  # Enable version updates for npm in apps/api
+  - package-ecosystem: 'npm'
+    directory: '/apps/api'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+    open-pull-requests-limit: 10
+    labels:
+      - 'dependencies'
+      - 'npm'
+      - 'api'
+    commit-message:
+      prefix: 'chore(deps):'
+      include: 'scope'
+    versioning-strategy: increase
+    groups:
+      patch-updates:
+        patterns:
+          - '*'
+        update-types:
+          - 'patch'
+
+  # Enable version updates for npm in apps/docs
+  - package-ecosystem: 'npm'
+    directory: '/apps/docs'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+    open-pull-requests-limit: 10
+    labels:
+      - 'dependencies'
+      - 'npm'
+      - 'docs'
+    commit-message:
+      prefix: 'chore(deps):'
+      include: 'scope'
+    versioning-strategy: increase
+    groups:
+      patch-updates:
+        patterns:
+          - '*'
+        update-types:
+          - 'patch'
+
+  # Enable version updates for npm in apps/web
+  - package-ecosystem: 'npm'
+    directory: '/apps/web'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+    open-pull-requests-limit: 10
+    labels:
+      - 'dependencies'
+      - 'npm'
+      - 'web'
+    commit-message:
+      prefix: 'chore(deps):'
+      include: 'scope'
+    versioning-strategy: increase
+    groups:
+      patch-updates:
+        patterns:
+          - '*'
+        update-types:
+          - 'patch'
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+      day: 'monday'
+      time: '09:00'
+    open-pull-requests-limit: 10
+    labels:
+      - 'dependencies'
+      - 'github-actions'
+    commit-message:
+      prefix: 'chore(ci):'
+      include: 'scope'
