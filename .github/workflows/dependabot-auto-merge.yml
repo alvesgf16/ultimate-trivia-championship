@@ -1,0 +1,81 @@
+name: Dependabot PR Triage
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+permissions:
+  pull-requests: write
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    # Only run for Dependabot PRs
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: '${{ secrets.GITHUB_TOKEN }}'
+
+      - name: Label patch updates
+        if: steps.metadata.outputs.update-type == 'version-update:semver-patch'
+        run: |
+          gh pr edit "$PR_URL" --add-label "patch-update"
+          gh pr comment "$PR_URL" --body "📦 **Patch Update**
+
+          This is a patch version update for: ${{ steps.metadata.outputs.dependency-names }}
+
+          Patch updates typically include bug fixes and are safe to merge after CI passes."
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Label minor updates
+        if: steps.metadata.outputs.update-type == 'version-update:semver-minor'
+        run: |
+          gh pr edit "$PR_URL" --add-label "minor-update"
+          gh pr comment "$PR_URL" --body "📦 **Minor Update**
+
+          This is a minor version update for: ${{ steps.metadata.outputs.dependency-names }}
+
+          Minor updates may include new features. Please review changelog before merging."
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Label major updates
+        if: steps.metadata.outputs.update-type == 'version-update:semver-major'
+        run: |
+          gh pr edit "$PR_URL" --add-label "major-update"
+          gh pr comment "$PR_URL" --body "⚠️ **Major Update**
+
+          This is a major version update for: ${{ steps.metadata.outputs.dependency-names }}
+
+          Major updates may include breaking changes. Please review thoroughly before merging."
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Prioritize security updates
+        if: steps.metadata.outputs.alert-state != ''
+        run: |
+          gh pr edit "$PR_URL" --add-label "security"
+          gh pr comment "$PR_URL" --body "🔒 **Security Update - Priority Review Required**
+
+          This PR includes a security update for: ${{ steps.metadata.outputs.dependency-names }}
+
+          **Details:**
+          - Alert State: ${{ steps.metadata.outputs.alert-state }}
+          - GHSA ID: ${{ steps.metadata.outputs.ghsa-id }}
+          - CVE ID: ${{ steps.metadata.outputs.cve-id }}
+          - Update Type: ${{ steps.metadata.outputs.update-type }}
+
+          Please review and merge as soon as possible to address the security vulnerability."
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
