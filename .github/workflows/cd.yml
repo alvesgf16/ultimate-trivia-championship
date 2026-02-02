@@ -111,7 +111,7 @@ jobs:
 
       - name: Build and push Docker image to ECR
         if: steps.check-aws.outputs.configured == 'true'
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./apps/api
           push: true
