@@ -1,9 +1,9 @@
 # Ultimate Trivia Championship
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=alvesgf16_ultimate-trivia-championship&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=alvesgf16_ultimate-trivia-championship)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=alvesgf16_ultimate-trivia-championship&metric=coverage)](https://sonarcloud.io/summary/new_code?id=alvesgf16_ultimate-trivia-championship)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=alvesgf16_ultimate-trivia-championship&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=alvesgf16_ultimate-trivia-championship)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=alvesgf16_ultimate-trivia-championship&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=alvesgf16_ultimate-trivia-championship)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ultimate-trivia-championship&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ultimate-trivia-championship)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ultimate-trivia-championship&metric=coverage)](https://sonarcloud.io/summary/new_code?id=ultimate-trivia-championship)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ultimate-trivia-championship&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=ultimate-trivia-championship)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ultimate-trivia-championship&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=ultimate-trivia-championship)
 
 A modern full-stack trivia application built with a monorepo architecture using Turborepo.
 
