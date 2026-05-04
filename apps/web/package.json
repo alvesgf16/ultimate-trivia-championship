@@ -20,7 +20,7 @@
     "react-dom": "^19.2.5"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^16.1.1",
+    "@next/bundle-analyzer": "^16.2.4",
     "@repo/config": "*",
     "@repo/types": "*",
     "@testing-library/jest-dom": "^6.9.1",
