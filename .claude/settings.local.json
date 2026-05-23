@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "PowerShell(Get-ChildItem -Path \"c:\\\\sd\\\\projs\\\\ultimate-trivia-championship\\\\apps\" | ForEach-Object { \"$\\($_.Name\\) - $\\($_.PSIsContainer\\)\" })",
-      "PowerShell(Get-ChildItem -Path \"c:\\\\sd\\\\projs\\\\ultimate-trivia-championship\\\\packages\" | ForEach-Object { \"$\\($_.Name\\) - $\\($_.PSIsContainer\\)\" })",
-      "PowerShell(Get-ChildItem -Path \"c:\\\\sd\\\\projs\\\\ultimate-trivia-championship\" -File | Where-Object {$_.Name -match \"\\\\.config|sonar\" } | Select-Object Name)"
-    ]
-  }
-}
