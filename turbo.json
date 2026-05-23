@@ -30,7 +30,9 @@
       "persistent": true
     },
     "analyze": {
-      "outputs": [".next/analyze/**"]
+      "outputs": [".next/analyze/**"],
+      "env": ["ANALYZE", "OPEN_ANALYZER"],
+      "cache": false
     }
   }
 }
