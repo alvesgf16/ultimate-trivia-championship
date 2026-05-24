@@ -1,0 +1,65 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "workspaces": {
+    ".": {
+      "entry": [
+        "commitlint.config.js",
+        "eslint.config.js",
+        "lint-staged.config.js",
+        "scripts/*.mjs"
+      ],
+      "project": ["*.{js,ts,mjs}"],
+      "ignoreDependencies": ["husky"]
+    },
+    "apps/web": {
+      "entry": [
+        "next.config.js",
+        "app/**/page.tsx",
+        "app/**/layout.tsx",
+        "app/**/loading.tsx",
+        "app/**/error.tsx",
+        "app/**/not-found.tsx",
+        "app/**/route.ts"
+      ],
+      "project": ["**/*.{ts,tsx}"]
+    },
+    "apps/docs": {
+      "entry": [
+        "next.config.js",
+        "app/**/page.tsx",
+        "app/**/layout.tsx",
+        "app/**/loading.tsx",
+        "app/**/error.tsx",
+        "app/**/not-found.tsx",
+        "app/**/route.ts"
+      ],
+      "project": ["**/*.{ts,tsx}"]
+    },
+    "apps/api": {
+      "entry": ["src/main.ts", "src/**/*.module.ts"],
+      "project": ["src/**/*.ts"],
+      "ignoreDependencies": ["reflect-metadata", "source-map-support"]
+    },
+    "packages/ui": {
+      "entry": ["src/**/*.{ts,tsx}"],
+      "project": ["src/**/*.{ts,tsx}"]
+    },
+    "packages/config": {
+      "entry": ["*.js"],
+      "project": ["*.js"]
+    },
+    "packages/types": {
+      "entry": ["*.json"],
+      "project": ["*.json"]
+    }
+  },
+  "ignore": [
+    "**/.next/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/coverage/**",
+    "**/node_modules/**"
+  ],
+  "ignoreBinaries": ["turbo", "nest", "next", "npx"],
+  "ignoreDependencies": ["turbo", "typescript"]
+}

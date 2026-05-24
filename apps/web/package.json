@@ -4,8 +4,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3000",
-    "build": "next build",
+    "analyze": "npx cross-env ANALYZE=true next build --webpack",
+    "dev": "next dev --port 3000 --webpack",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint --max-warnings 0",
     "lint:fix": "eslint --fix",
@@ -20,7 +21,7 @@
     "react-dom": "^19.2.5"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^16.1.1",
+    "@next/bundle-analyzer": "^16.2.6",
     "@repo/config": "*",
     "@repo/types": "*",
     "@testing-library/jest-dom": "^6.9.1",
