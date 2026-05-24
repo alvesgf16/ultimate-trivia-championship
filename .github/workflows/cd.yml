@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -76,7 +76,7 @@ jobs:
       name: production-api
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Check if AWS credentials are configured
         id: check-aws
@@ -136,7 +136,7 @@ jobs:
       name: production-web
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Check if Vercel is configured
         id: check-vercel
@@ -166,7 +166,7 @@ jobs:
       name: production-docs
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Check if Vercel is configured
         id: check-vercel
@@ -196,7 +196,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
